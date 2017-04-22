@@ -155,4 +155,3 @@ gulp.task('removedist', function() { return del.sync('dist'); });
 gulp.task('clearcache', function () { return cache.clearAll(); });
 
 gulp.task('default', ['watch']);
-
