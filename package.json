@@ -1,6 +1,6 @@
 {
   "name": "html_base",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "HTML 5 base template with smart-grid build in",
   "main": "index.js",
   "scripts": {
@@ -27,3 +27,4 @@
     "smart-grid": "^1.0.5"
   }
 }
+
