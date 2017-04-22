@@ -1,7 +1,7 @@
 {
   "name": "html_base",
-  "version": "0.0.1",
-  "description": "HTML 5 base template with semanticUI build in",
+  "version": "0.0.2",
+  "description": "HTML 5 base template with smart-grid build in",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,12 +16,14 @@
     "gulp-cache": "^0.4.6",
     "gulp-clean-css": "^3.0.3",
     "gulp-concat": "^2.6.1",
+    "gulp-group-css-media-queries": "^1.2.0",
     "gulp-imagemin": "^3.1.1",
     "gulp-notify": "^3.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^2.1.0",
     "gulp-util": "^3.0.8",
-    "vinyl-ftp": "^0.6.0"
+    "vinyl-ftp": "^0.6.0",
+    "smart-grid": "^1.0.5"
   }
 }
