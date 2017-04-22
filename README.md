@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # html_base
 HTML5 base template with smart-grid build in.
 =======
@@ -8,4 +7,3 @@ Normalize (http://necolas.github.io/normalize.css | Nicolas Gallagher, Jonathan 
 ___
 Smart Grid (https://github.com/dmitry-lavrik/smart-grid | Dmitry Lavrik | ISC License)
 ___
->>>>>>> cdbed15095a3b2d1a7a5d4cb2460e0f5220ec312
