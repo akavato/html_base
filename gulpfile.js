@@ -57,17 +57,17 @@ gulp.task('common-js', function() {
 		'app/js/common.js',
 		])
 	.pipe(concat('common.min.js'))
-	.pipe(uglify())
+	//.pipe(uglify())
 	.pipe(gulp.dest('app/js'));
 });
 
 gulp.task('js', ['common-js'], function() {
 	return gulp.src([
 		'app/libs/jquery/jquery.min.js',
-		'app/js/common.min.js', // Всегда в конце
+		'app/js/common.min.js', // end
 		])
 	.pipe(concat('scripts.min.js'))
-	.pipe(uglify())
+	//.pipe(uglify())
 	.pipe(gulp.dest('app/js'))
 	.pipe(browserSync.reload({stream: true}));
 });
