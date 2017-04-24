@@ -2,6 +2,22 @@
 @import "libs"
 @import "vars"
 
+html, body
+	height: 100%
+
+body
+	font-size: 16px
+	min-width: 320px
+	position: relative
+	line-height: 1.75
+	font-family: $default-font
+	overflow-x: hidden
+	opacity: 1
+
+.hidden
+	display: hidden
+
+// Form adjustments
 *::-webkit-input-placeholder
 	color: #666
 	opacity: 1
@@ -24,21 +40,7 @@ body textarea:focus:required:invalid
 body input:required:valid,
 body textarea:required:valid
 	color: #666
-
-html, body
-	height: 100%
-
-body
-	font-size: 16px
-	min-width: 320px
-	position: relative
-	line-height: 1.75
-	font-family: $default-font
-	overflow-x: hidden
-	opacity: 1
-
-.hidden
-	display: hidden
+//End of form adjustments
 
 
 @import "media" // End
