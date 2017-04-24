@@ -96,13 +96,13 @@ gulp.task('sass', function() {
 gulp.task('group-media-queries', function () {
 	gulp.src('app/css/main.min.css')
 		.pipe(gcmq())
-		.pipe(gulp.dest('dist'));
+		.pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('watch', ['sass', 'group-media-queries', 'js', 'browser-sync'], function() {
+gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
 	gulp.watch('app/sass/**/*.sass', ['sass']);
 	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
-	gulp.watch('app/*.html', browserSync.reload);
+	gulp.watch('app/**/*.html', browserSync.reload);
 });
 
 gulp.task('imagemin', function() {
@@ -111,10 +111,10 @@ gulp.task('imagemin', function() {
 	.pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'sass', 'js'], function() {
+gulp.task('build', ['removedist', 'imagemin', 'sass', 'group-media-queries', 'js'], function() {
 
 	var buildFiles = gulp.src([
-		'app/*.html',
+		'app/**/*.html',
 		'app/.htaccess',
 		]).pipe(gulp.dest('dist'));
 
