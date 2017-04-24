@@ -15,7 +15,20 @@ body
 	opacity: 1
 
 .hidden
-	display: hidden
+	display: none !important
+
+// Clearfix
+.clearfix:after
+    clear: both
+
+// Selection background
+*::-moz-selection
+    background: #b3d4fc
+    text-shadow: none
+
+*::selection {
+    background: #b3d4fc
+    text-shadow: none
 
 // Form adjustments
 *::-webkit-input-placeholder
@@ -40,6 +53,9 @@ body textarea:focus:required:invalid
 body input:required:valid,
 body textarea:required:valid
 	color: #666
+body textarea
+    resize: vertical
+
 //End of form adjustments
 
 
