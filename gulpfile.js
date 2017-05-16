@@ -17,12 +17,12 @@ var gulp           = require('gulp'),
 
 var settings = {
 	filename: '_smart-grid',
-    outputStyle: 'sass', /* less || scss || sass || styl */
-    columns: 12, /* number of grid columns */
-    offset: "0px", /* gutter width px || % */
+    outputStyle: 'sass',
+    columns: 12,
+    offset: "0px",
     container: {
-        maxWidth: '1920px', /* max-width оn very large screen */
-        fields: '30px' /* side fields */
+        maxWidth: '1920px',
+        fields: '30px'
     },
     breakPoints: {
 		xl: {
@@ -30,8 +30,8 @@ var settings = {
             'fields': '30px'
         },
         lg: {
-            'width': '1366px', /* -> @media (max-width: 1100px) */
-            'fields': '30px' /* side fields */
+            'width': '1366px', /* -> @media (max-width: 1366px) */
+            'fields': '30px'
         },
         md: {
             'width': '1024px',
@@ -64,7 +64,7 @@ gulp.task('common-js', function() {
 gulp.task('js', ['common-js'], function() {
 	return gulp.src([
 		'app/libs/jquery/jquery.min.js',
-		'app/js/common.min.js', // end
+		'app/js/common.min.js',
 		])
 	.pipe(concat('scripts.min.js'))
 	//.pipe(uglify())
@@ -87,7 +87,7 @@ gulp.task('sass', function() {
 	return gulp.src('app/sass/**/*.sass')
 	.pipe(sass().on("error", notify.onError()))
 	.pipe(rename({suffix: '.min', prefix : ''}))
-	.pipe(autoprefixer(['last 15 versions']))
+	.pipe(autoprefixer(['last 5 versions']))
 	.pipe(cleanCSS())
 	.pipe(gulp.dest('app/css'))
 	.pipe(browserSync.reload({stream: true}));
