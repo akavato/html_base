@@ -11,7 +11,7 @@ var gulp           = require('gulp'),
 		cache          = require('gulp-cache'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
-		notify         = require('gulp-notify');
+		notify         = require('gulp-notify'),
 		smartgrid 	   = require('smart-grid'),
 		gcmq 		   = require('gulp-group-css-media-queries');
 
@@ -78,8 +78,8 @@ gulp.task('browser-sync', function() {
 			baseDir: 'app'
 		},
 		notify: false,
-		 //tunnel: false,
-		 //tunnel: "akavato", //http://akavato.localtunnel.me
+		//tunnel: false,
+		//tunnel: "akavato", //http://akavato.localtunnel.me
 	});
 });
 
