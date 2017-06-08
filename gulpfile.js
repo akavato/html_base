@@ -11,7 +11,7 @@ var gulp           = require('gulp'),
 		cache          = require('gulp-cache'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
-		notify         = require("gulp-notify");
+		notify         = require('gulp-notify');
 		smartgrid 	   = require('smart-grid'),
 		gcmq 		   = require('gulp-group-css-media-queries');
 
@@ -19,7 +19,7 @@ var settings = {
 	filename: '_smart-grid',
     outputStyle: 'sass',
     columns: 12,
-    offset: "0px",
+    offset: '0px',
     container: {
         maxWidth: '1920px',
         fields: '30px'
@@ -85,7 +85,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('sass', function() {
 	return gulp.src('app/sass/**/*.sass')
-	.pipe(sass().on("error", notify.onError()))
+	.pipe(sass().on('error', notify.onError()))
 	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer(['last 5 versions']))
 	.pipe(cleanCSS())
