@@ -42,7 +42,7 @@ var settings = {
             'fields': '15px'
         },
         xs: {
-            'width': '320px',
+            'width': '444px',
             'fields': '0px'
         }
     }
@@ -88,7 +88,7 @@ gulp.task('sass', function() {
 	.pipe(sass().on('error', notify.onError()))
 	.pipe(rename({suffix: '.min', prefix : ''}))
 	.pipe(autoprefixer(['last 5 versions']))
-	.pipe(cleanCSS())
+	//.pipe(cleanCSS())
 	.pipe(gulp.dest('app/css'))
 	.pipe(browserSync.reload({stream: true}));
 });
@@ -96,7 +96,8 @@ gulp.task('sass', function() {
 gulp.task('group-media-queries', function () {
 	gulp.src('app/css/main.min.css')
 		.pipe(gcmq())
-		.pipe(gulp.dest('dist/css'));
+		.pipe(cleanCSS())
+		.pipe(gulp.dest('dist/css/gmq'));
 });
 
 gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
@@ -117,10 +118,11 @@ gulp.task('build', ['removedist', 'imagemin', 'sass', 'group-media-queries', 'js
 		'app/**/*.html',
 		'app/.htaccess',
 		'app/robots.txt',
+		'app/send.php',
 		]).pipe(gulp.dest('dist'));
 
 	var buildCss = gulp.src([
-		'app/css/main.min.css',
+		'app/css/gmq/main.min.css',
 		]).pipe(gulp.dest('dist/css'));
 
 	var buildJs = gulp.src([
