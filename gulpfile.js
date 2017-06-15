@@ -11,6 +11,7 @@ var gulp           = require('gulp'),
 		cache          = require('gulp-cache'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
+		rsync 		   = require('gulp-rsync'),
 		notify         = require('gulp-notify'),
 		smartgrid 	   = require('smart-grid'),
 		gcmq 		   = require('gulp-group-css-media-queries');
@@ -153,6 +154,18 @@ gulp.task('deploy', function() {
 	return gulp.src(globs, {buffer: false})
 	.pipe(conn.dest('/path/to/folder/on/server'));
 
+});
+
+gulp.task('sync', function() {
+  gulp.src('build/**')
+    .pipe(rsync({
+      root: 'build/',
+      hostname: 'example.com',
+      destination: 'path/to/site/',
+      archive: true,
+      silent: false,
+      compress: true
+    }));
 });
 
 gulp.task('removedist', function() { return del.sync('dist'); });
