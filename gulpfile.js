@@ -94,7 +94,7 @@ gulp.task('sass', function() {
 	.pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('group-media-queries', function () {
+gulp.task('group-media-queries', ['sass'], function () {
 	gulp.src('app/css/main.min.css')
 		.pipe(gcmq())
 		.pipe(cleanCSS())
@@ -113,7 +113,7 @@ gulp.task('imagemin', function() {
 	.pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'sass', 'group-media-queries', 'js'], function() {
+gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], function() {
 
 	var buildFiles = gulp.src([
 		'app/**/*.html',
