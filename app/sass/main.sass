@@ -1,6 +1,7 @@
 @import "fonts"
 @import "libs"
 @import "vars"
+@import "smart-grid"
 
 html, body
 	height: 100%
@@ -9,7 +10,6 @@ body
 	font-size: 16px
 	min-width: 320px
 	position: relative
-	line-height: 1.75
 	font-family: $default-font
 	overflow-x: hidden
 	opacity: 1
@@ -22,13 +22,6 @@ body
 			border-color: green
 	textarea
     	resize: vertical
-// Hidden class
-.hidden
-	display: none !important
-
-// Clearfix
-.clearfix:after
-    clear: both
 
 // Selection background
 *::-moz-selection
@@ -38,7 +31,6 @@ body
 *::selection
     background: $selection
     text-shadow: none
-	color: #fff
 
 // Form adjustments
 *::-webkit-input-placeholder
