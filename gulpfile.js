@@ -172,6 +172,7 @@ gulp.task('sync', function () {
 			root: 'build/',
 			hostname: 'example.com',
 			destination: 'path/to/site/',
+			recursive: true,
 			archive: true,
 			silent: false,
 			compress: true
