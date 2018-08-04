@@ -1,20 +1,20 @@
-var gulp = require('gulp'),
-	gutil = require('gulp-util'),
-	sass = require('gulp-sass'),
-	browserSync = require('browser-sync'),
-	concat = require('gulp-concat'),
-	uglify = require('gulp-uglify'),
-	cleanCSS = require('gulp-clean-css'),
-	rename = require('gulp-rename'),
-	del = require('del'),
-	imagemin = require('gulp-imagemin'),
-	cache = require('gulp-cache'),
-	autoprefixer = require('gulp-autoprefixer'),
-	ftp = require('vinyl-ftp'),
-	rsync = require('gulp-rsync'),
-	notify = require('gulp-notify'),
-	smartgrid = require('smart-grid'),
-	gcmq = require('gulp-group-css-media-queries');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var sass = require('gulp-sass');
+var browserSync = require('browser-sync');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var cleanCSS = require('gulp-clean-css');
+var rename = require('gulp-rename');
+var del = require('del');
+var imagemin = require('gulp-imagemin');
+var cache = require('gulp-cache');
+var autoprefixer = require('gulp-autoprefixer');
+var ftp = require('vinyl-ftp');
+var rsync = require('gulp-rsync');
+var notify = require('gulp-notify');
+var smartgrid = require('smart-grid');
+var gcmq = require('gulp-group-css-media-queries');
 
 var settings = {
 	filename: '_smart-grid',
@@ -23,7 +23,7 @@ var settings = {
 	offset: '0px',
 	container: {
 		maxWidth: '1920px',
-		fields: '30px'
+		fields: '30px',
 	},
 	breakPoints: {
 		xl: {
@@ -46,127 +46,147 @@ var settings = {
 		xs: {
 			'width': '444px',
 			'fields': '0px'
-		}
-	}
+		},
+	},
+	mixinNames: {
+        container: "wrapper",
+        row: "row-flex",
+        rowFloat: "row-float",
+        rowInlineBlock: "row-ib",
+        rowOffsets: "row-offsets",
+        column: "col",
+        size: "size",
+        columnFloat: "col-float",
+        columnInlineBlock: "col-ib",
+        columnPadding: "col-padding",
+        columnOffsets: "col-offsets",
+        shift: "shift",
+        from: "from",
+        to: "to",
+        fromTo: "from-to",
+        reset: "reset",
+        clearfix: "clearfix",
+        debug: "debug"
+    }
 };
 
-gulp.task('smartgrid', function () {
+gulp.task('smartgrid', function() {
 	smartgrid('app/sass', settings);
 });
 
-gulp.task('common-js', function () {
+gulp.task('common-js', function() {
 	return gulp.src([
 			'app/js/common.js',
 		])
 		.pipe(concat('common.min.js'))
-		//.pipe(uglify())
+		// .pipe(uglify())
 		.pipe(gulp.dest('app/js'));
 });
 
-gulp.task('js', ['common-js'], function () {
+gulp.task('js', ['common-js'], function() {
 	return gulp.src([
 			'app/libs/jquery/jquery.min.js',
 			'app/js/common.min.js',
 		])
 		.pipe(concat('scripts.min.js'))
-		//.pipe(uglify())
+		// .pipe(uglify())
 		.pipe(gulp.dest('app/js'))
 		.pipe(browserSync.reload({
-			stream: true
+			stream: true,
 		}));
 });
 
-gulp.task('browser-sync', function () {
+gulp.task('browser-sync', function() {
 	browserSync({
 		server: {
-			baseDir: 'app'
+			baseDir: 'app',
 		},
 		notify: false,
-		//tunnel: false,
-		//tunnel: "akavato", //http://akavato.localtunnel.me
+		// tunnel: false,
+		// tunnel: "akavato", //http://akavato.localtunnel.me
 	});
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', function() {
 	return gulp.src('app/sass/**/*.sass')
 		.pipe(sass().on('error', notify.onError()))
 		.pipe(rename({
 			suffix: '.min',
-			prefix: ''
+			prefix: '',
 		}))
 		.pipe(autoprefixer(['last 5 versions']))
-		//.pipe(cleanCSS())
+		// .pipe(cleanCSS())
 		.pipe(gulp.dest('app/css'))
 		.pipe(browserSync.reload({
-			stream: true
+			stream: true,
 		}));
 });
 
-gulp.task('group-media-queries', ['sass'], function () {
+gulp.task('group-media-queries', ['sass'], function() {
 	gulp.src('app/css/main.min.css')
 		.pipe(gcmq())
 		.pipe(cleanCSS())
 		.pipe(gulp.dest('dist/css/gmq'));
 });
 
-gulp.task('watch', ['sass', 'js', 'browser-sync'], function () {
+gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
 	gulp.watch('app/sass/**/*.sass', ['sass']);
 	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
 	gulp.watch('app/**/*.html', browserSync.reload);
 });
 
-gulp.task('imagemin', function () {
+gulp.task('imagemin', function() {
 	return gulp.src('app/img/**/*')
 		.pipe(cache(imagemin()))
 		.pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], function () {
+gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], function() {
 
-	var buildFiles = gulp.src([
+	let buildFiles = gulp.src([
 		'app/**/*.html',
 		'app/.htaccess',
 		'app/robots.txt',
 		'app/send.php',
 	]).pipe(gulp.dest('dist'));
 
-	var buildCss = gulp.src([
+	let buildCss = gulp.src([
 		'app/css/gmq/main.min.css',
 	]).pipe(gulp.dest('dist/css'));
 
-	var buildJs = gulp.src([
+	let buildJs = gulp.src([
 		'app/js/scripts.min.js',
 	]).pipe(gulp.dest('dist/js'));
 
-	var buildFonts = gulp.src([
+	let buildFonts = gulp.src([
 		'app/fonts/**/*',
 	]).pipe(gulp.dest('dist/fonts'));
 
 });
 
-gulp.task('deploy', function () {
+gulp.task('deploy', function() {
 
-	var conn = ftp.create({
+	let conn = ftp.create({
 		host: 'hostname.com',
 		user: 'username',
 		password: 'userpassword',
 		parallel: 10,
-		log: gutil.log
+		log: gutil.log,
 	});
 
-	var globs = [
+	let globs = [
 		'dist/**',
 		'dist/.htaccess',
 		'dist/robots.txt',
 	];
 	return gulp.src(globs, {
-			buffer: false
+			buffer: false,
 		})
 		.pipe(conn.dest('/path/to/folder/on/server'));
 
 });
 
-gulp.task('sync', function () {
+gulp.task('sync', function() {
 	gulp.src('build/**')
 		.pipe(rsync({
 			root: 'build/',
@@ -175,14 +195,14 @@ gulp.task('sync', function () {
 			recursive: true,
 			archive: true,
 			silent: false,
-			compress: true
+			compress: true,
 		}));
 });
 
-gulp.task('removedist', function () {
+gulp.task('removedist', function() {
 	return del.sync('dist');
 });
-gulp.task('clearcache', function () {
+gulp.task('clearcache', function() {
 	return cache.clearAll();
 });
 
