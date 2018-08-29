@@ -21,6 +21,7 @@ var settings = {
 	outputStyle: 'sass',
 	columns: 12,
 	offset: '0px',
+	mobileFirst: true,
 	container: {
 		maxWidth: '1920px',
 		fields: '30px',
@@ -32,7 +33,7 @@ var settings = {
 		},
 		lg: {
 			'width': '1366px',
-			/* -> @media (max-width: 1366px) */
+			/* -> @media (min-width: 1366px) */
 			'fields': '30px'
 		},
 		md: {
@@ -49,54 +50,54 @@ var settings = {
 		},
 	},
 	mixinNames: {
-        container: "wrapper",
-        row: "row-flex",
-        rowFloat: "row-float",
-        rowInlineBlock: "row-ib",
-        rowOffsets: "row-offsets",
-        column: "col",
-        size: "size",
-        columnFloat: "col-float",
-        columnInlineBlock: "col-ib",
-        columnPadding: "col-padding",
-        columnOffsets: "col-offsets",
-        shift: "shift",
-        from: "from",
-        to: "to",
-        fromTo: "from-to",
-        reset: "reset",
-        clearfix: "clearfix",
-        debug: "debug"
-    }
+		container: "wrapper",
+		row: "row-flex",
+		rowFloat: "row-float",
+		rowInlineBlock: "row-ib",
+		rowOffsets: "row-offsets",
+		column: "col",
+		size: "size",
+		columnFloat: "col-float",
+		columnInlineBlock: "col-ib",
+		columnPadding: "col-padding",
+		columnOffsets: "col-offsets",
+		shift: "shift",
+		from: "from",
+		to: "to",
+		fromTo: "from-to",
+		reset: "reset",
+		clearfix: "clearfix",
+		debug: "debug"
+	}
 };
 
-gulp.task('smartgrid', function() {
+gulp.task('smartgrid', function () {
 	smartgrid('app/sass', settings);
 });
 
-gulp.task('common-js', function() {
+gulp.task('common-js', function () {
 	return gulp.src([
 			'app/js/common.js',
 		])
 		.pipe(concat('common.min.js'))
-		// .pipe(uglify())
+		//.pipe(uglify())
 		.pipe(gulp.dest('app/js'));
 });
 
-gulp.task('js', ['common-js'], function() {
+gulp.task('js', ['common-js'], function () {
 	return gulp.src([
 			'app/libs/jquery/jquery.min.js',
 			'app/js/common.min.js',
 		])
 		.pipe(concat('scripts.min.js'))
-		// .pipe(uglify())
+		//.pipe(uglify())
 		.pipe(gulp.dest('app/js'))
 		.pipe(browserSync.reload({
 			stream: true,
 		}));
 });
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function () {
 	browserSync({
 		server: {
 			baseDir: 'app',
@@ -107,14 +108,14 @@ gulp.task('browser-sync', function() {
 	});
 });
 
-gulp.task('sass', function() {
+gulp.task('sass', function () {
 	return gulp.src('app/sass/**/*.sass')
 		.pipe(sass().on('error', notify.onError()))
 		.pipe(rename({
 			suffix: '.min',
 			prefix: '',
 		}))
-		.pipe(autoprefixer(['last 5 versions']))
+		.pipe(autoprefixer(['last 10 versions']))
 		// .pipe(cleanCSS())
 		.pipe(gulp.dest('app/css'))
 		.pipe(browserSync.reload({
@@ -122,26 +123,26 @@ gulp.task('sass', function() {
 		}));
 });
 
-gulp.task('group-media-queries', ['sass'], function() {
+gulp.task('group-media-queries', ['sass'], function () {
 	gulp.src('app/css/main.min.css')
 		.pipe(gcmq())
 		.pipe(cleanCSS())
-		.pipe(gulp.dest('dist/css/gmq'));
+		.pipe(gulp.dest('dist/css/'));
 });
 
-gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
-	gulp.watch('app/sass/**/*.sass', ['sass']);
-	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
+gulp.task('watch', ['sass', 'js', 'browser-sync'], function () {
+	gulp.watch(['app/sass/**/*.sass', 'app/sass/**/*.scss'], ['sass']);
+	gulp.watch(['libs/**/*.js', 'app/js/*.js'], ['js']);
 	gulp.watch('app/**/*.html', browserSync.reload);
 });
 
-gulp.task('imagemin', function() {
+gulp.task('imagemin', function () {
 	return gulp.src('app/img/**/*')
 		.pipe(cache(imagemin()))
 		.pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], function() {
+gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], function () {
 
 	let buildFiles = gulp.src([
 		'app/**/*.html',
@@ -151,7 +152,7 @@ gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], func
 	]).pipe(gulp.dest('dist'));
 
 	let buildCss = gulp.src([
-		'app/css/gmq/main.min.css',
+		'app/css/*.min.css',
 	]).pipe(gulp.dest('dist/css'));
 
 	let buildJs = gulp.src([
@@ -164,7 +165,14 @@ gulp.task('build', ['removedist', 'imagemin', 'group-media-queries', 'js'], func
 
 });
 
-gulp.task('deploy', function() {
+gulp.task('removedist', function () {
+	return del.sync('dist');
+});
+gulp.task('clearcache', function () {
+	return cache.clearAll();
+});
+
+gulp.task('deploy', function () {
 
 	let conn = ftp.create({
 		host: 'hostname.com',
@@ -186,7 +194,7 @@ gulp.task('deploy', function() {
 
 });
 
-gulp.task('sync', function() {
+gulp.task('sync', function () {
 	gulp.src('build/**')
 		.pipe(rsync({
 			root: 'build/',
@@ -197,13 +205,6 @@ gulp.task('sync', function() {
 			silent: false,
 			compress: true,
 		}));
-});
-
-gulp.task('removedist', function() {
-	return del.sync('dist');
-});
-gulp.task('clearcache', function() {
-	return cache.clearAll();
 });
 
 gulp.task('default', ['watch']);
