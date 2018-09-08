@@ -1,3 +1,39 @@
 {
-    "extends": "google"
+    "extends": "standard",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+
+    "env": {
+        "es6": true,
+        "node": true
+    },
+
+    "plugins": [
+        "import",
+        "node",
+        "promise",
+        "standard"
+    ],
+
+    "globals": {
+        "$": false,
+        "google": false
+    },
+
+    "rules": {
+        "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+        "indent": ["error", 4],
+        "no-undef": "warn",
+        "no-unused-vars": ["warn", {
+            "vars": "all",
+            "args": "none",
+            "ignoreRestSiblings": true
+        }],
+        "padded-blocks": "off",
+        "semi": "off",
+        "spaced-comment": "off",
+        "space-before-function-paren": "off"
+    }
 }
